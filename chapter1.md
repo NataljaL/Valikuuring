@@ -1,114 +1,94 @@
 ---
-title       : Insert the chapter title here
+title       : Tõenäosus
 description : Insert the chapter description here
-attachments :
-  slides_link : https://s3.amazonaws.com/assets.datacamp.com/course/teach/slides_example.pdf
 
---- type:MultipleChoiceExercise lang:r xp:50 skills:1 key:c52f60c4e7
-## A really bad movie
+--- type:NormalExercise lang:r xp:100 skills:1 key:4186379252
+## Tõenäosusruum
 
-Have a look at the plot that showed up in the viewer to the right. Which type of movie has the worst rating assigned to it?
+`R`-i jaoks on tõenäosusruumiks objekt tüüpi `data.frame`, mis sisaldab lõpliku elementaarsündmuste hulga $\Omega$ kõikvõimalike väärtuseid ning tõenäosusi, millega need sündmused võivad realiseeruda. 
+
+Paketis `prob` on olemas eraldi funktsioon tõenäosusruumi loomiseks: 
+
+`probspace(x, probs)`, 
+
+kus `x` on elementaarsündmuste ruum ja `probs` tõenäosuste vektor, mille pikkus on võrdne elementaarsündmuste ruumi elementida arvuga ja mille väärtuste summa on 1.
 
 *** =instructions
-- Adventure
-- Action
-- Animation
-- Comedy
+
+* Tee läbi näide 1. Pane tähele, kuidas luuakse tõenäosusruum 6-tahulise täringu visketulemuste jaoks.
+* Ülesanne. Loo tõenäosusruum nimega `mynt.ruum`, mis vastab ühe tavalise mündi viske tulemustele. Kasuta funktsiooni `tosscoin()`.
 
 *** =hint
-Have a look at the plot. Which color does the point with the lowest rating have?
 
 *** =pre_exercise_code
 ```{r}
-# The pre exercise code runs code to initialize the user's workspace.
-# You can use it to load packages, initialize datasets and draw a plot in the viewer
+source_github <- function(user = "cran", package = "prob") {
+  
+  library(httr)
+  package_source <- paste0(user, "/",package, "/")
+  url <- paste0("https://api.github.com/repos","/", package_source, "git/trees/master?recursive=1")
+  req <- GET(url)
+  stop_for_status(req)
+  filelist <- unlist(lapply(content(req)$tree, "[", "path"), use.names = F)
+  R_files <- filelist[grep("R/",filelist)]
+  
+  for(file in R_files) {
+    url <- paste0("https://raw.githubusercontent.com/", package_source, "master/", file)
+    source(url)
+  }
+}
+save(file = "source_github.Rda", source_github)
 
-movies <- read.csv("http://s3.amazonaws.com/assets.datacamp.com/course/introduction_to_r/movies.csv")
+source_github()
 
-library(ggplot2)
+source_github <- function(user = "cran", package = "combinat") {
+  
+  library(httr)
+  package_source <- paste0(user, "/",package, "/")
+  url <- paste0("https://api.github.com/repos","/", package_source, "git/trees/master?recursive=1")
+  req <- GET(url)
+  stop_for_status(req)
+  filelist <- unlist(lapply(content(req)$tree, "[", "path"), use.names = F)
+  R_files <- filelist[grep("R/",filelist)]
+  
+  for(file in R_files) {
+    url <- paste0("https://raw.githubusercontent.com/", package_source, "master/", file)
+    source(url)
+  }
+}
+save(file = "source_github.Rda", source_github)
 
-ggplot(movies, aes(x = runtime, y = rating, col = genre)) + geom_point()
-```
-
-*** =sct
-```{r}
-# SCT written with testwhat: https://github.com/datacamp/testwhat/wiki
-
-msg_bad <- "That is not correct!"
-msg_success <- "Exactly! There seems to be a very bad action movie in the dataset."
-test_mc(correct = 2, feedback_msgs = c(msg_bad, msg_success, msg_bad, msg_bad))
-```
-
---- type:NormalExercise lang:r xp:100 skills:1 key:caca67d79a
-## More movies
-
-In the previous exercise, you saw a dataset about movies. In this exercise, we'll have a look at yet another dataset about movies!
-
-A dataset with a selection of movies, `movie_selection`, is available in the workspace.
-
-*** =instructions
-- Check out the structure of `movie_selection`.
-- Select movies with a rating of 5 or higher. Assign the result to `good_movies`.
-- Use `plot()` to  plot `good_movies$Run` on the x-axis, `good_movies$Rating` on the y-axis and set `col` to `good_movies$Genre`.
-
-*** =hint
-- Use `str()` for the first instruction.
-- For the second instruction, you should use `...[movie_selection$Rating >= 5, ]`.
-- For the plot, use `plot(x = ..., y = ..., col = ...)`.
-
-*** =pre_exercise_code
-```{r}
-# You can also prepare your dataset in a specific way in the pre exercise code
-load(url("https://s3.amazonaws.com/assets.datacamp.com/course/teach/movies.RData"))
-movie_selection <- Movies[Movies$Genre %in% c("action", "animated", "comedy"), c("Genre", "Rating", "Run")]
-
-# Clean up the environment
-rm(Movies)
+source_github()
 ```
 
 *** =sample_code
 ```{r}
-# movie_selection is available in your workspace
+# Näide 1. 6-tahulise täringu veeretamise tulemused ja vastav tõenäosusruum.
+taring <- rolldie(1)                # elementaarsündmuste ruum 
+p <- rep(1/6, times=6)              # tõenäosuste vektor
+taring.ruum <- probspace(taring, p) # vastav tõenäosusruum
 
-# Check out the structure of movie_selection
+# Ülesanne. Ühe müdni viskamisele vastav tõenäosusruum
 
-
-# Select movies that have a rating of 5 or higher: good_movies
-
-
-# Plot Run (i.e. run time) on the x axis, Rating on the y axis, and set the color using Genre
 
 ```
 
 *** =solution
+# Näide 1. 6-tahulise täringu veeretamise tulemused ja vastav tõenäosusruum.
+taring <- rolldie(1)                # elementaarsündmuste ruum 
+p <- rep(1/6, times=6)              # tõenäosuste vektor
+taring.ruum <- probspace(taring, p) # vastav tõenäosusruum
+
+# Ülesanne. Ühe müdni viskamisele vastav tõenäosusruum
+mynt <- tosscoin(1)
+p <- rep(1/2, times=2)
+mynt.ruum <- probspace(mynt, p)
+
 ```{r}
-# movie_selection is available in your workspace
 
-# Check out the structure of movie_selection
-str(movie_selection)
-
-# Select movies that have a rating of 5 or higher: good_movies
-good_movies <- movie_selection[movie_selection$Rating >= 5, ]
-
-# Plot Run (i.e. run time) on the x axis, Rating on the y axis, and set the color using Genre
-plot(good_movies$Run, good_movies$Rating, col = good_movies$Genre)
 ```
 
 *** =sct
 ```{r}
-# SCT written with testwhat: https://github.com/datacamp/testwhat/wiki
 
-test_function("str", args = "object",
-              not_called_msg = "You didn't call `str()`!",
-              incorrect_msg = "You didn't call `str(object = ...)` with the correct argument, `object`.")
-
-test_object("good_movies")
-
-test_function("plot", args = "x")
-test_function("plot", args = "y")
-test_function("plot", args = "col")
-
-test_error()
-
-success_msg("Good work!")
 ```
