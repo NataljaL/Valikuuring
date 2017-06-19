@@ -17,7 +17,7 @@ kus `x` on elementaarsündmuste ruum ja `probs` tõenäosuste vektor, mille pikk
 
 * Tee läbi näide 1. Pane tähele, kuidas luuakse tõenäosusruum 6-tahulise täringu visketulemuste jaoks.
 * Tee läbi näide 2. Selles on ära toodud alternatiivne käsk tõenäosusruumi loomiseks täringu viske korral.
-* Ülesanne. Loo tõenäosusruum nimega `mynt.ruum1`, mis vastab ebaausa mündi viske tulemustele. Vapi tõenäosus on 0.3. Kasuta funktsiooni `tosscoin()`. 
+* Ülesanne. Loo tõenäosusruum nimega `mynt.ruum` analoogiliselt näitega 1, mis vastab ebaausa mündi viske tulemustele. Vapi tõenäosus on 0.3. Kasuta funktsiooni `tosscoin()`. 
 * Katseta aknas `R Console`, kas käsuga `tosscoin()` on võimalik luua tõenäosusruumi ebaausa mündi visketulemuste kirjeldamiseks?
 
 *** =hint
@@ -74,7 +74,9 @@ taring.ruum1 <- probspace(taring, p) # vastav tõenäosusruum
 taring.ruum2 <- rolldie(1, makespace = TRUE)
 
 # Ülesanne. Ühe müdni viskamisele vastav tõenäosusruum
-
+mynt <- _________________
+p <- _________________
+mynt.ruum <- ____________
 
 ```
 
